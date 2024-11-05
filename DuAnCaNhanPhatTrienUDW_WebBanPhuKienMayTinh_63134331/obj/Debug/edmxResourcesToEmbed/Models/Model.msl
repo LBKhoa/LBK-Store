@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="QLCHTBPKMTModelStoreContainer" CdmEntityContainer="QLCHTBPKMTEntities">
+    <EntitySetMapping Name="CHITIETGIOHANG">
+      <EntityTypeMapping TypeName="QLCHTBPKMTModel.CHITIETGIOHANG">
+        <MappingFragment StoreEntitySet="CHITIETGIOHANG">
+          <ScalarProperty Name="SDTKH" ColumnName="SDTKH" />
+          <ScalarProperty Name="IDSP" ColumnName="IDSP" />
+          <ScalarProperty Name="SL" ColumnName="SL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CHITIETHOADON">
+      <EntityTypeMapping TypeName="QLCHTBPKMTModel.CHITIETHOADON">
+        <MappingFragment StoreEntitySet="CHITIETHOADON">
+          <ScalarProperty Name="IDHD" ColumnName="IDHD" />
+          <ScalarProperty Name="IDSP" ColumnName="IDSP" />
+          <ScalarProperty Name="SL" ColumnName="SL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HOADON">
+      <EntityTypeMapping TypeName="QLCHTBPKMTModel.HOADON">
+        <MappingFragment StoreEntitySet="HOADON">
+          <ScalarProperty Name="IDHD" ColumnName="IDHD" />
+          <ScalarProperty Name="NDAT" ColumnName="NDAT" />
+          <ScalarProperty Name="NGIAO" ColumnName="NGIAO" />
+          <ScalarProperty Name="TINHTRANG" ColumnName="TINHTRANG" />
+          <ScalarProperty Name="SDTKH" ColumnName="SDTKH" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="HOTENNN" ColumnName="HOTENNN" />
+          <ScalarProperty Name="SDTNN" ColumnName="SDTNN" />
+          <ScalarProperty Name="DIACHINN" ColumnName="DIACHINN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KHACHHANG">
+      <EntityTypeMapping TypeName="QLCHTBPKMTModel.KHACHHANG">
+        <MappingFragment StoreEntitySet="KHACHHANG">
+          <ScalarProperty Name="HOTENKH" ColumnName="HOTENKH" />
+          <ScalarProperty Name="DIACHIKH" ColumnName="DIACHIKH" />
+          <ScalarProperty Name="EMAILKH" ColumnName="EMAILKH" />
+          <ScalarProperty Name="SDTKH" ColumnName="SDTKH" />
+          <ScalarProperty Name="PASSKH" ColumnName="PASSKH" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LOAISANPHAM">
+      <EntityTypeMapping TypeName="QLCHTBPKMTModel.LOAISANPHAM">
+        <MappingFragment StoreEntitySet="LOAISANPHAM">
+          <ScalarProperty Name="IDLSP" ColumnName="IDLSP" />
+          <ScalarProperty Name="TENLSP" ColumnName="TENLSP" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NHACUNGCAP">
+      <EntityTypeMapping TypeName="QLCHTBPKMTModel.NHACUNGCAP">
+        <MappingFragment StoreEntitySet="NHACUNGCAP">
+          <ScalarProperty Name="IDNCC" ColumnName="IDNCC" />
+          <ScalarProperty Name="TENNCC" ColumnName="TENNCC" />
+          <ScalarProperty Name="EMAILNCC" ColumnName="EMAILNCC" />
+          <ScalarProperty Name="DIACHINCC" ColumnName="DIACHINCC" />
+          <ScalarProperty Name="SDTNCC" ColumnName="SDTNCC" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NHANVIEN">
+      <EntityTypeMapping TypeName="QLCHTBPKMTModel.NHANVIEN">
+        <MappingFragment StoreEntitySet="NHANVIEN">
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="HOTENNV" ColumnName="HOTENNV" />
+          <ScalarProperty Name="SDTNV" ColumnName="SDTNV" />
+          <ScalarProperty Name="DIACHINV" ColumnName="DIACHINV" />
+          <ScalarProperty Name="EMAILNV" ColumnName="EMAILNV" />
+          <ScalarProperty Name="PASSNV" ColumnName="PASSNV" />
+          <ScalarProperty Name="QUYEN" ColumnName="QUYEN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SANPHAM">
+      <EntityTypeMapping TypeName="QLCHTBPKMTModel.SANPHAM">
+        <MappingFragment StoreEntitySet="SANPHAM">
+          <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+          <ScalarProperty Name="IDSP" ColumnName="IDSP" />
+          <ScalarProperty Name="TENSP" ColumnName="TENSP" />
+          <ScalarProperty Name="IMGSP" ColumnName="IMGSP" />
+          <ScalarProperty Name="GIASP" ColumnName="GIASP" />
+          <ScalarProperty Name="BH" ColumnName="BH" />
+          <ScalarProperty Name="TSKT" ColumnName="TSKT" />
+          <ScalarProperty Name="IDNCC" ColumnName="IDNCC" />
+          <ScalarProperty Name="IDLSP" ColumnName="IDLSP" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="DSSPTheoLoaiSP" FunctionName="QLCHTBPKMTModel.Store.DSSPTheoLoaiSP">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QLCHTBPKMTModel.DSSPTheoLoaiSP_Result">
+          <ScalarProperty Name="TENLSP" ColumnName="TENLSP" />
+          <ScalarProperty Name="IMGSP" ColumnName="IMGSP" />
+          <ScalarProperty Name="GIASP" ColumnName="GIASP" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GioHangKH" FunctionName="QLCHTBPKMTModel.Store.GioHangKH">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QLCHTBPKMTModel.GioHangKH_Result">
+          <ScalarProperty Name="IMGSP" ColumnName="IMGSP" />
+          <ScalarProperty Name="TENSP" ColumnName="TENSP" />
+          <ScalarProperty Name="SL" ColumnName="SL" />
+          <ScalarProperty Name="GIASP" ColumnName="GIASP" />
+          <ScalarProperty Name="Tổng" ColumnName="Tổng" />
+          <ScalarProperty Name="IDSP" ColumnName="IDSP" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="KHDangNhap" FunctionName="QLCHTBPKMTModel.Store.KHDangNhap" />
+    <FunctionImportMapping FunctionImportName="NVDangNhap" FunctionName="QLCHTBPKMTModel.Store.NVDangNhap">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QLCHTBPKMTModel.NVDangNhap_Result">
+          <ScalarProperty Name="KQ" ColumnName="KQ" />
+          <ScalarProperty Name="QUYEN" ColumnName="QUYEN" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SLSPTrongGH" FunctionName="QLCHTBPKMTModel.Store.SLSPTrongGH" />
+    <EntitySetMapping Name="BAIVIETs">
+      <EntityTypeMapping TypeName="QLCHTBPKMTModel.BAIVIET">
+        <MappingFragment StoreEntitySet="BAIVIET">
+          <ScalarProperty Name="CHITIET" ColumnName="CHITIET" />
+          <ScalarProperty Name="IMGBV" ColumnName="IMGBV" />
+          <ScalarProperty Name="TENBV" ColumnName="TENBV" />
+          <ScalarProperty Name="IDBV" ColumnName="IDBV" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
