@@ -1,0 +1,72 @@
+﻿@model DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.NHANVIEN
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var quyen = Model.QUYEN;
+}
+
+<h2>Thông tin cá nhân</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Họ tên
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTENNV)
+        </dd>
+
+        <dt>
+            Số điện thoại
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SDTNV)
+        </dd>
+
+        <dt>
+            Địa chỉ
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DIACHINV)
+        </dd>
+
+        <dt>
+            Email
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMAILNV)
+        </dd>
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QUYEN)
+        </dt>
+
+        @if (Convert.ToBoolean(quyen))
+        {
+            <dd>
+
+                Quản trị viên
+            </dd>
+        }
+        else
+        {
+            <dd>
+                Nhân viên
+            </dd>
+        }
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.IDNV }) |
+    @Html.ActionLink("Trở lại", "Index")
+</p>

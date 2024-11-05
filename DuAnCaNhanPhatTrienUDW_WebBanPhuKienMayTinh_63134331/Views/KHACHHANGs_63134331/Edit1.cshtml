@@ -1,0 +1,199 @@
+﻿@model DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.KHACHHANG
+
+@{
+    ViewBag.Title = "Thông tin người dùng";
+    Model.PASSKH = "";
+    if (Session["ID"] == null || Session["UserName"].ToString().Contains("NV"))
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(function () {
+        $.ajax({
+            url: '/HOADONs_63134331/GetHOADONList',
+            type: 'GET',
+            data: { sdt: '@Session["ID"].ToString()' },
+            success: function (response) {
+                // Xử lý kết quả thành công
+                if (response.success) {
+                    // Hiển thị danh sách HOADON lên HTML
+                    var hoadonList = response.data;
+                    var html = '';
+                    for (var i = 0; i < hoadonList.length; i++) {
+                        html += '<div class="hoaDon">';
+                        var hoadon = hoadonList[i];
+                        html += '<div style="margin-bottom:10px;font-weight:bold">Đơn hàng: #' + hoadon.IDHD + ', Ngày đặt: ' + hoadon.NDAT +  '</div>';
+
+                        // Hiển thị thông tin chi tiết hóa đơn
+                        var chitiet = hoadon.CHITIET;
+                        for (var j = 0; j < chitiet.length; j++) {
+                            var ct = chitiet[j];
+                            html += '<div class="product-info">';
+                            html += '<span class="tenSP"> - ' + ct.TENSP + '</span>';
+                            html += '<span>Số lượng: ' + ct.SL + '</span>';
+                            html += '<a href="'+ ct.TSKT+'">Xem chi tiết </a>';
+                            html += '</div>';
+                        }
+                        html += '<div class="tongTien" style=" font-weight:bold;text-align:center;color:blue;"> Người nhận: ' + hoadon.HOTENNN + ', Số điện thoại nhận hàng: ' + hoadon.SDTNN + '</div>';
+                        html += '<div class="tongTien" style=" font-weight:bolder;text-align:right;color:red;padding-right:30px">Tổng tiền: ' + hoadon.TongTien + '</div>';
+                        html += '</div>';
+                    }
+
+
+                    $('#hoadon-list').html(html);
+
+                } else {
+                    // Hiển thị thông báo lỗi
+                    alert(response.error);
+                }
+            },
+            error: function (xhr, status, error) {
+                // Xử lý lỗi trong quá trình gửi yêu cầu
+                alert('Lỗi: ' + error);
+            }
+        });
+    });
+    $(document).ready(function () {
+        // Lắng nghe sự kiện thay đổi giá trị trong các trường textbox
+        $('input[type="text"]').on('input', function () {
+            // Kiểm tra xem có giá trị mới không
+            var hasChanges = false;
+            $('input[type="text"]').each(function () {
+                if ($(this).val() !== '') {
+                    hasChanges = true;
+                    return false; // Thoát khỏi vòng lặp nếu tìm thấy giá trị mới
+                }
+            });
+
+            // Áp dụng hoặc gỡ bỏ lớp CSS tùy chỉnh trên nút "Lưu"
+            if (hasChanges) {
+                $('#saveButton').removeClass('disabled-button');
+            } else {
+                $('#saveButton').addClass('disabled-button');
+            }
+        });
+    });
+    $(function () {
+        $('form').submit(function (e) {
+            e.preventDefault(); // Ngăn chặn hành động mặc định của form
+
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                success: function (result) {
+                    // Hiển thị cảnh báo thành công
+                    $('#successMessage').text('Lưu thành công.').fadeIn();
+
+                    // Tải lại trang sau 2 giây
+                    setTimeout(function () {
+                        window.location.href = '/KHACHHANGs_63134331/Edit1/'+'@Session["ID"].ToString()';
+                    }, 2000);
+                },
+                error: function (error) {
+                    // Xử lý lỗi
+                }
+            });
+        });
+    });
+</script>
+
+<style>
+    .hoaDon {
+        margin-bottom: 25px;
+        padding-left: 5px;
+    }
+
+    .disabled-button {
+        opacity: 0.5; /* Điều chỉnh mức độ mờ tùy ý */
+        pointer-events: none; /* Ngăn chặn hành động nhấp chuột */
+    }
+
+    .product-info {
+        display: flex;
+        align-items: center;
+    }
+
+        .product-info span {
+            margin-right: 10px;
+        }
+
+        .product-info img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+</style>
+
+
+<div style="height:15px"></div>
+<div class="row">
+    <div class="col-5" style="padding-left:50px">
+        <h2 style="text-align:center;padding-right:100px">Thông tin người dùng</h2>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal" style="margin-left:15px">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <span style="font-size:25px">Họ tên</span>
+                    <div class="col-md-10" style="max-width: 80%">
+                        @Html.EditorFor(model => model.HOTENKH, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.HOTENKH, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span style="font-size:25px">Địa chỉ mặc định</span>
+                    <div class="col-md-10" style="max-width: 80%">
+                        @Html.EditorFor(model => model.DIACHIKH, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DIACHIKH, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span style="font-size:25px">Email nhận khuyến mãi</span>
+                    <div class="col-md-10" style="max-width: 80%">
+                        @Html.EditorFor(model => model.EMAILKH, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EMAILKH, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @Html.HiddenFor(model => model.SDTKH)
+                <div class="form-group">
+                    <span style="font-size:25px">Mật khẩu mới</span>
+                    <div class="col-md-10" style="max-width: 80%">
+                        @Html.EditorFor(model => model.PASSKH, new { htmlAttributes = new { @class = "form-control", value = "" } })
+                        @Html.ValidationMessageFor(model => model.PASSKH, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div id="successMessage" class="alert alert-success" style="display: none;max-width: 80%;max-height:50px"></div>
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Lưu" class="btn btn-primary disabled-button" id="saveButton" style="min-height:50px;min-width:100px" />
+                    </div>
+                </div>
+                <div style=" font-size:25px;">
+                    @Html.ActionLink("Về Trang chủ", "Index", "Home_63134331", null, new { style = "text-decoration: none;" })
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-7">
+        <h2 style="text-align:center">Danh sách hóa đơn đã đặt</h2>
+        <div class="col-12" id="hoadon-list">
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,81 @@
+﻿@model DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.NHANVIEN
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+
+<h2>Tạo mới nhân viên</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IDNV)
+
+
+        <div class="form-group">
+            Họ tên        <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTENNV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.HOTENNV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Số điện thoại         <div class="col-md-10">
+                @Html.EditorFor(model => model.SDTNV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SDTNV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Địa chỉ        <div class="col-md-10">
+                @Html.EditorFor(model => model.DIACHINV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DIACHINV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Email        <div class="col-md-10">
+                @Html.EditorFor(model => model.EMAILNV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EMAILNV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Mật khẩu đăng nhập        <div class="col-md-10">
+                @Html.EditorFor(model => model.PASSNV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PASSNV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Quyền
+            <div class="col-md-10">
+                <label class="radio-inline">
+                    @Html.RadioButtonFor(model => model.QUYEN, true) Quản trị viên
+                </label>
+                <label class="radio-inline">
+                    @Html.RadioButtonFor(model => model.QUYEN, false, new { @checked = "checked" }) Nhân viên
+                </label>
+                @Html.ValidationMessageFor(model => model.QUYEN, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Tạo" class="btn btn-primary" /> |
+                @Html.ActionLink("Trở lại", "Index")
+
+            </div>
+        </div>
+    </div>
+}

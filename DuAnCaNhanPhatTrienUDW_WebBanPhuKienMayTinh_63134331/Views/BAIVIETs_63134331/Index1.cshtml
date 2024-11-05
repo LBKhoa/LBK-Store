@@ -1,0 +1,103 @@
+﻿@model IEnumerable<DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.BAIVIET>
+
+@{
+    ViewBag.Title = "Index1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .pagechange {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: -220px;
+    }
+
+    .page-link {
+        text-decoration: none;
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 4px;
+        margin: 0 4px;
+        transition: background-color 0.3s;
+    }
+
+        .page-link:hover {
+            background-color: #0056b3;
+        }
+
+        /* Đổi màu cho trang hiện tại */
+        .page-link.active {
+            background-color: #0056b3;
+            font-weight: bold;
+        }
+
+        /* Thêm hiệu ứng khi di chuột qua */
+        .page-link:hover {
+            transform: scale(1.1); /* Phóng to khi di chuột qua */
+        }
+
+        .page-link.active:hover {
+            transform: scale(1); /* Trả lại kích thước bình thường cho trang hiện tại */
+        }
+</style>
+<div style="background-color: sandybrown; margin: 5px; padding: 10px; max-width: 100%; border: 2px solid red; border-radius: 12px; padding: 5px; ">
+    <h1 style="padding-left: 10px; font-weight: bolder; text-align: center">Danh sách bài viết</h1>
+</div>
+
+
+<div class="row" style=" margin-left:2%">
+    @foreach (var item in Model)
+    {
+
+        <div class="col-6" style="align-items: center;text-align:left;margin:5px; max-width:48%;height:250px">
+            <div class="row">
+                <a class="col-5" href="@Html.DisplayFor(modelItem => item.CHITIET)">
+                    <img src="@Html.DisplayFor(modelItem => item.IMGBV)" alt="Alternate Text" style="width:95%;height:200px;border:1px solid" />
+                </a>
+                <a class="col-7" href="@Url.Action("XemBV", "BAIVIETs_63134331", new { idbv = item.IDBV })" style="text-decoration:none;color: #fe8e23"> <h2> @Html.DisplayFor(modelItem => item.TENBV)</h2> </a>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="pagechange" style="padding-top:15pc;padding-bottom:15px">
+    @if (Model.Count() > 0)
+    {
+        int totalPages = (int)Math.Ceiling((double)Model.Count() / 6); // Số trang (mỗi trang 8 bài viết)
+        for (int i = 1; i <= totalPages; i++)
+        {
+            <a href="?page=@i" class="page-link">@i</a>
+        }
+    }
+</div>
+
+<script>
+    // Hàm để ẩn hiện các bài viết trên từng trang
+    function showPage(pageNumber) {
+        var posts = document.querySelectorAll('.col-6');
+        var startIndex = (pageNumber - 1) * 6;
+        var endIndex = startIndex + 6;
+
+        for (var i = 0; i < posts.length; i++) {
+            if (i >= startIndex && i < endIndex) {
+                posts[i].style.display = 'block';
+            } else {
+                posts[i].style.display = 'none';
+            }
+        }
+    }
+
+    // Xử lý sự kiện khi nhấn vào các trang phân trang
+    var pageLinks = document.querySelectorAll('.page-link');
+    pageLinks.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            var pageNumber = parseInt(this.getAttribute('href').substring(6));
+            showPage(pageNumber);
+        });
+    });
+
+    // Hiển thị trang đầu tiên khi tải trang
+    showPage(1);
+</script>

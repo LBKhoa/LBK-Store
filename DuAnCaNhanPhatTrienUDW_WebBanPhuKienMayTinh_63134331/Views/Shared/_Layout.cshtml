@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cửa hàng kinh doanh thiết bị và phụ kiện máy tính</title>
+    <!-- use icon fonts awesome -->
+    <link rel="stylesheet" href="~/Content/css/all.min.css" />
+    <!-- use icon Bootstrap -->
+    <link rel="stylesheet"
+          href="~/Content/css/bootstrap-icons-1.8.2/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css" />
+    <!-- use icon font awesome -->
+    <script src="~/Content/js/all.min.js"></script>
+    <script src="~/Content/js/bootstrap.bundle.min.js"></script>
+
+    <!--css tự viết-->
+    <link rel="stylesheet" href="~/Content/css/layout.css" />
+    <link rel="icon" type="image/png" href="~/assets/images/layout/favicon.png" />
+    <style>
+        body {
+            overflow-x: hidden; /* Ẩn thanh cuộn ngang */
+        }
+    </style>
+</head>
+
+<body style="background-color: #d3d3d3">
+    <div class="fixed-top sticky-top w-100 p-2" style="background-color: #f5f5fa">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-2 d-flex flex-column">
+                <a href="@Url.Action("Index", "Home_63134331")">
+                    <img src="~/assets/images/layout/logo2.png"
+                         style="width: 200px" />
+                </a>
+                <div class="dropdown">
+                    <a href="#"
+                       class="btn btn-danger dropdown-toggle"
+                       role="button"
+                       style="margin-top:5px;font-size:16px"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <span class="fa fa-bars">&nbsp;&nbsp;</span>
+                        &nbsp;Danh mục sản phẩm
+                    </a>
+                    <ul class="dropdown-menu">
+                        <a class="dropdown-item" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP001" })"><img src="~/assets/images/layout/vga.png" /> VGA - Card màn hình</a>
+                        <a class="dropdown-item" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP002" })"><img src="~/assets/images/layout/cpu.png" />CPU - Bộ vi xử lý</a>
+                        <a class="dropdown-item" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP003" })"><img src="~/assets/images/layout/mainboard.png" />Bo mạch chủ</a>
+                        <a class="dropdown-item" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP004" })"><img src="~/assets/images/layout/ram.jpg" />Bộ nhớ trong RAM</a>
+                        <a class="dropdown-item" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP005" })"><img src="~/assets/images/layout/disk.jpg" />Bộ nhớ ngoài SSD - HDD</a>
+                        <a class="dropdown-item" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP006" })"><img src="~/assets/images/layout/case.png" />Case - Vỏ máy tính</a>
+                        <a class="dropdown-item" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP007" })"><img src="~/assets/images/layout/psu.png" />PSU - Nguồn máy tính</a>
+                        <a class="dropdown-item" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP008" })"><img src="~/assets/images/layout/fan.jpg" />FAN - Tản nhiệt</a>
+                        <a class="dropdown-item" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP009" })"><img src="~/assets/images/layout/screen.png" />Màn hình</a>
+                        <a class="dropdown-item" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP010" })"><img src="~/assets/images/layout/keyboard.jpg" />Bàn phím</a>
+                        <a class="dropdown-item" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP011" })"><img src="~/assets/images/layout/mouse.jpg" />Chuột</a>
+                        <a class="dropdown-item" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP012" })"><img src="~/assets/images/layout/laptop.jpg" />Laptop</a>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-8 d-flex flex-column ">
+                <div class="p-2 row">
+                    <div class="col-md-4">
+                        @using (Html.BeginForm("Search", "SANPHAMs_63134331", FormMethod.Get))
+                        {
+                            <div class="row pt-1">
+                                <input style="min-height:32px;margin-top:1px" class="w-75 rounded-left col-10" type="text" name="productName" placeholder="Nhập tên sản phẩm" />
+                                <button style="min-height: 34px; justify-content: center; border-top-right-radius: 20px; border-bottom-right-radius: 20px; align-items: center; " type="submit" class="btn btn-danger d-flex col-2">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-8 d-flex justify-content-around" id="login">
+                        @if (Session["UserName"] != null)
+                        {
+                            <div class="col-md-8 d-flex justify-content-around">
+                                <div class="col-md-7">
+                                    <a href="@Url.Action("Edit1", "KHACHHANGs_63134331",  new { id = @Session["ID"]})">
+                                        <span class="btn" style="font-size:17px">
+                                            Xin chào <span style="color: blue;"> @Session["UserName"].ToString()</span>
+                                        </span>
+                                    </a>
+                                </div>
+                                <div class="col-md-5">
+                                    <a href="@Url.Action("DangXuat", "XACTHUCs_63134331")">
+                                        <span class="btn" style="font-size:17px">
+                                            Đăng xuất
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-8 d-flex justify-content-around">
+                                <div class="col-md-6">
+                                    <a href="@Url.Action("DangKy", "XACTHUCs_63134331")">
+                                        <span class="btn" style="font-size:17px">
+                                            <img src="~/assets/images/layout/signup.png" />
+                                            Đăng ký
+                                        </span>
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="@Url.Action("DangNhap", "XACTHUCs_63134331")">
+                                        <span class="btn" style="font-size:17px">
+                                            <img src="~/assets/images/layout/login.png" />
+                                            Đăng nhập
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        <div class="col-md-4">
+                            <a class="btn" href="@Url.Action("GioHang", "KHACHHANGs_63134331")">
+                                <span class="cart-icon">
+                                    <img src="~/assets/images/layout/cart.png" />
+                                    @if (Session["SLSP"] != null)
+                                    {
+                                        <span style="position: absolute; top: -15px; right: -7px; background-color: red; color: white; font-size: 12px; padding: 2px 5px; border-radius: 50%;">@Session["SLSP"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="position: absolute; top: -15px; right: -7px; background-color: red; color: white; font-size: 12px; padding: 2px 5px; border-radius: 50%;">0</span>
+                                    }
+                                </span>
+                                <span style="font-size:17px">Giỏ hàng</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-2 d-flex justify-content-around mt-2" style="font-size:20px">
+                    <a href="@Url.Action("Index1", "BAIVIETs_63134331")" class="link"><strong>Tin công nghệ</strong></a>
+                    <div>|</div>
+                    <a href="@Url.Action("VanChuyen", "Common_63134331")" class="link"><strong>Chính sách vận chuyển</strong></a>
+                    <div>|</div>
+                    <a href="#footer" class="link"><strong>Liên hệ</strong></a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div style="margin: auto;min-height:500px" class="bg-body" id="body">@RenderBody()</div>
+
+    <footer>
+        <div class="row d-flex justify-content-center" id="footer" style="background-color: #f5f5fa; padding-top: 20px">
+            <div class="col-md-5">
+                <h4>Đề tài cá nhân triển ứng dụng web</h4>
+                <h5>Tên đề tài: Cửa hàng kinh doanh thiết bị và phụ kiện máy tính</h5>
+            </div>
+            <div class="col-md-4">
+                <h4>Họ và tên: Lê Bảo Khoa</h4>
+                <h5>MSSV: 63134331</h5>
+                <h5>lỚP :63 CNTT-2</h5>
+            </div>
+            <div class="col-md-1">
+                <a class="scroll-to-top rounded bg-body" href="#body" style="color:red;">
+                    <i class="fas fa-angle-up"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

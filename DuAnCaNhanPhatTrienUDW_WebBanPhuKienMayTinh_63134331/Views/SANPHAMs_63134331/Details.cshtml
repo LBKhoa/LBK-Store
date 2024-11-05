@@ -1,0 +1,83 @@
+﻿@model DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.SANPHAM
+
+@{
+    ViewBag.Title = "Details";
+    if (Session["ID"] != null && Session["ID"].ToString().Contains("NV"))
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }}
+
+<style>
+    .form-container {
+        display: flex;
+        justify-content: center; /* Căn giữa ngang */
+        align-items: center; /* Căn giữa dọc */
+        height: 100%; /* Đảm bảo div cha có chiều cao */
+    }
+
+    .center-button {
+        display: block;
+        margin: 0 auto; /* Căn giữa ngang */
+        width: 100%;
+        height: 100%;
+        font-weight: bolder;
+    }
+</style>
+
+<div class="row" style="padding-left: 15px;padding-top:25px;; align-self: center; align-content: center; align-items: center">
+    <h2 class="col-8">@Html.DisplayFor(model => model.LOAISANPHAM.TENLSP): @Html.DisplayFor(model => model.TENSP) </h2>
+    <div class="col-1"></div>
+    <p class="col-3" style="font-size: 20px; text-align:right">
+        @Html.ActionLink("Danh sách " + Model.LOAISANPHAM.TENLSP, "Index", new { loaiSanPham = Model.LOAISANPHAM.IDLSP }, new { style = "text-decoration:none;" })
+    </p>
+</div>
+
+<div>
+    <table style="width:98%; margin-left:10px; padding-left:5px;">
+        <tr style="text-align: center; font-size: 25px; background-color: sandybrown;">
+            <td style="width: 30%; border: 2px solid"><strong>Thông tin</strong></td>
+            <td style="width: 70%; border: 2px solid"><strong>Thông số và đánh giá</strong></td>
+        </tr>
+        <tr>
+            <td style="border: 2px solid;align-items:start;align-content:start">
+                <div style="text-align:center; ">
+                    <dl>
+                        <dt><img style="height:100%;width:100%;" src="@Html.DisplayFor(model => model.IMGSP)" alt="@Html.DisplayFor(model => model.TENSP)" /></dt>
+                        <dt style="font-size:18px;">
+                            Nhà cung cấp: @Html.DisplayFor(model => model.NHACUNGCAP.TENNCC)
+                        </dt>
+                        <dt style="font-size:22px;">
+                            Thời gian bảo hành: @Html.DisplayFor(model => model.BH)
+                        </dt>
+                        <dt style="font-size:25px;">
+                            Giá sản phẩm: @string.Format("{0:N0}", Model.GIASP) đ
+                        </dt>
+                        <dt>
+                            <i>Kho hiện có: @string.Format("{0:N0}", Model.SOLUONG)</i>
+                        </dt>
+                        <dt>
+                            <div class="form-container">
+                                @using (Html.BeginForm("Create", "CHITIETGIOHANGs_63134331", new { sdtkh = Session["ID"], idsp = Model.IDSP, sl = 1 }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary() <!-- Hiển thị tất cả thông báo lỗi -->
+                                    <button type="submit" class="btn btn-outline-primary center-button">Thêm vào giỏ</button>
+                                }
+                            </div>
+                        </dt>
+                        <dt style="height:200px">
+
+                        </dt>
+                    </dl>
+                </div>
+            </td>
+            <td style=" border: 2px solid"><iframe style="width: 100%; height: 800px;" src="@Html.DisplayFor(model => model.TSKT)"></iframe></td>
+        </tr>
+    </table>
+</div>
+
+

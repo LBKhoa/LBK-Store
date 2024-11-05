@@ -1,0 +1,170 @@
+﻿@model IEnumerable<DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.SANPHAM>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    .form-container {
+        display: flex;
+        justify-content: center; /* Căn giữa ngang */
+        align-items: center; /* Căn giữa dọc */
+        height: 100%; /* Đảm bảo div cha có chiều cao */
+    }
+
+    .center-button {
+        display: block;
+        margin: 0 auto; /* Căn giữa ngang */
+        width: 100%;
+        height: 100%;
+        background-color: #93f542;
+    }
+
+    .tenSP {
+        height: 200px;
+        display: inline-block;
+        white-space: normal; /* Hiển thị nội dung trên 2 dòng */
+        text-overflow: ellipsis; /* Hiển thị dấu chấm 3 ở cuối khi nội dung quá dài */
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        max-height: 3.6em;
+        line-height: 1.8em;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+
+    .giaSP {
+        font-weight: bolder;
+        color: red;
+        margin-top: 5px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: -220px;
+    }
+
+    .page-link {
+        text-decoration: none;
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 4px;
+        margin: 0 4px;
+        transition: background-color 0.3s;
+    }
+
+        .page-link:hover {
+            background-color: #0056b3;
+        }
+
+        /* Đổi màu cho trang hiện tại */
+        .page-link.active {
+            background-color: #0056b3;
+            font-weight: bold;
+        }
+
+        /* Thêm hiệu ứng khi di chuột qua */
+        .page-link:hover {
+            transform: scale(1.1); /* Phóng to khi di chuột qua */
+        }
+
+        .page-link.active:hover {
+            transform: scale(1); /* Trả lại kích thước bình thường cho trang hiện tại */
+        }
+</style>
+
+<div style="background-color: sandybrown; margin: 5px; padding: 10px; max-width: 100%; border: 2px solid red; border-radius: 12px; padding: 5px; ">
+    <h2 style="padding-left: 10px; font-weight: bolder; text-align: left">Danh sách sản phẩm: @ViewBag.LoaiSanPham</h2>
+</div>
+
+<div class="col-md-4">
+    @using (Html.BeginForm("SearchNC", "SANPHAMs_63134331", FormMethod.Get))
+    {
+        <div class="row pt-1">
+            <input style="min-height:32px;margin-top:1px" class="w-75 rounded-left col-10" type="text" name="productName" placeholder="Nhập tên sản phẩm" />
+
+            <input style="min-height:32px;margin-top:1px" class="w-75 rounded-left col-10" type="number" name="minPrice" placeholder="Giá tối thiểu" />
+
+            <input style="min-height:32px;margin-top:1px" class="w-75 rounded-left col-10" type="number" name="maxPrice" placeholder="Giá tối đa" />
+
+            <input style="min-height:32px;margin-top:1px" class="w-75 rounded-left col-10" type="text" name="manufacturer" placeholder="Nhà sản xuất" />
+
+            <input style="min-height:32px;margin-top:1px" class="w-75 rounded-left col-10" type="text" name="productType" placeholder="Loại sản phẩm" />
+
+            <button style="min-height: 34px; justify-content: center; border-top-right-radius: 20px; border-bottom-right-radius: 20px; align-items: center; " type="submit" class="btn btn-danger d-flex col-2">
+                <span class="fa fa-search"></span>
+            </button>
+        </div>
+    }
+</div>
+<div class="bg-body row" style="display: flex; justify-content: center; align-items: center; padding: 1px; margin: 1px">
+    @foreach (var item in Model)
+    {
+        <div class="card col-2" style="margin: 5px; width: 19%; height: 100%; min-height: 500px">
+            <a href="@Url.Action("Details", "SANPHAMs_63134331", new { id = item.IDSP })">
+                <img src="@item.IMGSP" alt="@item.IMGSP" style="height: 300px; max-width:100%">
+            </a>
+            <div class="tenSP" title="@Html.DisplayFor(modelItem => item.TENSP)">
+                <h4 style="text-align: center; color: darkblue;">@Html.DisplayFor(modelItem => item.TENSP)</h4>
+            </div>
+            <div class="giaSP">
+                <h5>Giá: @string.Format("{0:#,##0 đ}", item.GIASP)</h5>
+            </div>
+            <div class="form-container">
+                @using (Html.BeginForm("Create", "CHITIETGIOHANGs_63134331", new { sdtkh = Session["ID"], idsp = item.IDSP, sl = 1 }, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary() <!-- Hiển thị tất cả thông báo lỗi -->
+                    <button type="submit" class="btn btn-outline-primary center-button"><h4>Thêm vào giỏ</h4></button>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<div class="pagination" style="padding-top: 15pc; padding-bottom: 15px">
+    @if (Model.Count() > 0)
+    {
+        int totalPages = (int)Math.Ceiling((double)Model.Count() / 10); // Số trang (mỗi trang 10 sản phẩm)
+        for (int i = 1; i <= totalPages; i++)
+        {
+            <a href="?page=@i" class="page-link">@i</a>
+        }
+    }
+</div>
+
+<script>
+    // Hàm để ẩn hiện các sản phẩm trên từng trang
+    function showPage(pageNumber) {
+        var products = document.querySelectorAll('.card');
+        var startIndex = (pageNumber - 1) * 10;
+        var endIndex = startIndex + 10;
+
+        for (var i = 0; i < products.length; i++) {
+            if (i >= startIndex && i < endIndex) {
+                products[i].style.display = 'block';
+            } else {
+                products[i].style.display = 'none';
+            }
+        }
+    }
+
+    // Xử lý sự kiện khi nhấn vào các trang phân trang
+    var pageLinks = document.querySelectorAll('.page-link');
+    pageLinks.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            var pageNumber = parseInt(this.getAttribute('href').substring(6));
+            showPage(pageNumber);
+        });
+    });
+
+    // Hiển thị trang đầu tiên khi tải trang
+    showPage(1);
+</script>

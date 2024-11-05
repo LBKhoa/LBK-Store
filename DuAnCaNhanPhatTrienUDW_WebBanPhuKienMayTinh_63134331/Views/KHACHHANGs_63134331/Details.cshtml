@@ -1,0 +1,51 @@
+﻿@model DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.KHACHHANG
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div style="margin-left:10px">
+    <h2>Thông tin Khách hàng</h2>
+
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Số điện thoại
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SDTKH)
+            </dd>
+            <dt>
+                Họ tên
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.HOTENKH)
+            </dd>
+
+            <dt>
+                Địa chỉ
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DIACHIKH)
+            </dd>
+
+            <dt>
+                Email
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EMAILKH)
+            </dd>
+
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Sửa", "Edit1", new { id = Model.SDTKH }) |
+        @Html.ActionLink("Về Danh sách", "Index")
+    </p>
+</div>

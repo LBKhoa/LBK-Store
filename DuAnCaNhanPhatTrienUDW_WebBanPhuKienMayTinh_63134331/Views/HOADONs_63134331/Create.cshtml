@@ -1,0 +1,138 @@
+﻿@model DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.HOADON
+
+@{
+    ViewBag.Title = "Xác nhận đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Đảm bảo rằng tất cả các phần tử HTML đã được tải xong
+    document.addEventListener("DOMContentLoaded", function () {
+        // Gọi hàm để lấy danh sách sản phẩm từ Session và hiển thị nó
+        getSelectedProducts();
+    });
+
+    function getSelectedProducts() {
+        $.ajax({
+            url: '/HOADONs_63134331/GetSelectedProducts',
+            type: 'GET',
+            success: function (response) {
+                // Xử lý kết quả thành công
+                if (response.success) {
+                    var selectedProducts = response.data;
+                    var html = '<div class="hoaDon">';
+                    var totalAmount = 0; // Biến tính tổng tiền
+                    for (var i = 0; i < selectedProducts.length; i++) {
+                        var product = selectedProducts[i];
+                        html += '<div class="row" style="margin-bottom:20px">';
+                        html += '<div class="col-2">';
+                        html += '<img style="width:80px;height:80px;" src="' + product.IMGSP + '" alt="">';
+                        html += '</div>';
+                        html += '<div class="product-info col-10">';
+                        html += '<h3 class="tenSP">' + product.TENSP + '</h3>';
+                        html += '<div class="row"><span class="col-5" style="text-align:left;">Số lượng: ' + product.SL + '</span><span class="col-7" style="text-align:center">Giá: ' + formatCurrency(product.GIASP) + '</span></div>';
+                        html += '</div>';
+                        html += '</div>';
+                        totalAmount += product.SL * product.GIASP;
+                    }
+
+                    // Định dạng số tiền về 1.000.000đ
+                    var formattedTotalAmount = formatCurrency(totalAmount);
+
+                    html += '<h2 style="text-align:right;color: red;">Tổng tiền: ' + formattedTotalAmount + '</h2>';
+
+                    html += '</div>';
+
+                    function formatCurrency(number) {
+                        return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                    }
+
+
+                    // Hiển thị danh sách sản phẩm
+                    var container = document.getElementById('selectedProductsContainer');
+                    container.innerHTML = html;
+                } else {
+                    // Xử lý lỗi (nếu có)
+                }
+            },
+            error: function (xhr, status, error) {
+                // Xử lý lỗi trong quá trình gửi yêu cầu
+            }
+        });
+    }
+
+</script>
+
+<div style="padding-left:15px; font-size: 25px">
+    <div class="row">
+        <h1 class="col-6" style="padding-top:15px; text-align:center">Xác nhận Đơn hàng</h1>
+        <div class="col-6" style="padding-top:15px;text-align:right">
+            @Html.ActionLink("Trở lại Giỏ hàng", "GioHang", "KHACHHANGs_63134331", null, new { style = "text-decoration: none;" })
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-5" style="padding-left:50px">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="col-md-10">
+                    <span>Ngày giao dự kiến:</span>
+                    <span id="ngayGiaoDuKien">@(DateTime.Now.AddDays(2).ToString("dd/MM/yyyy"))</span>
+                </div>
+
+
+                <div class="form-horizontal">
+
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(model => model.IDHD)
+                    @Html.HiddenFor(model => model.NDAT)
+                    @Html.HiddenFor(model => model.NGIAO)
+                    @Html.HiddenFor(model => model.TINHTRANG)
+                    @Html.HiddenFor(model => model.SDTKH)
+                    @Html.HiddenFor(model => model.IDNV)
+
+
+
+                    <div class="form-group">
+                        Họ tên người nhận
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.HOTENNN, new { htmlAttributes = new { @class = "form-control", @Value = Session["Username"].ToString() } })
+                            @Html.ValidationMessageFor(model => model.HOTENNN, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        Số điện thoại người nhận
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.SDTNN, new { htmlAttributes = new { @class = "form-control", @Value = Session["ID"].ToString() } })
+                            @Html.ValidationMessageFor(model => model.SDTNN, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        Địa chỉ nhận hàng
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.DIACHINN, new { htmlAttributes = new { @class = "form-control", @Value = Session["Address"].ToString() } })
+                            @Html.ValidationMessageFor(model => model.DIACHINN, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Xác nhận" class="btn btn-danger" style="min-height:40px; font-size:20px" />
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+        <div class="col-7" id="selectedProductsContainer"></div>
+    </div>
+</div>

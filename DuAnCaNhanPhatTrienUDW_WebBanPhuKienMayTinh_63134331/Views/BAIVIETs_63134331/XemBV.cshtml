@@ -1,0 +1,14 @@
+﻿@model DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.BAIVIET
+
+@{
+    ViewBag.Title = "XemBV";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>@Model.TENBV</h3>
+
+<iframe id="myIframe" style="width: 90%; min-height: 1800px; margin:auto " src="@Model.CHITIET"></iframe>
+
+<p style="font-family: 'Helvetica', sans-serif; /* Chọn một phông chữ đẹp (đổi 'Helvetica' thành tên phông chữ mà bạn muốn) */ font-size: 18px; /* Kích thước phông chữ */ color: #333; /* Màu chữ */ text-decoration: none; /* Bỏ gạch chân */ text-align: center">
+    @Html.ActionLink("QUAY LẠI DS BÀI VIẾT", "Index1")
+</p>

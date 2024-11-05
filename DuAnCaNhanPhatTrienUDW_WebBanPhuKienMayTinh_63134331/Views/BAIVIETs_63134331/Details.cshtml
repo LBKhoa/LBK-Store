@@ -1,0 +1,22 @@
+﻿@model DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.BAIVIET
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h2 style="margin-left: 10px">Chi tiết bài viết: "@Model.TENBV"</h2>
+
+<p style="font-size:20px">
+    @if (Session["ID"].ToString().Contains("NV"))
+    {
+        @Html.ActionLink("Sửa |", "Edit", new { id = Model.IDBV })
+
+    }
+    @Html.ActionLink("Trở lại", "Index")
+</p>
+
+<div class="col" style="justify-content:center; align-items:center;min-width:80%; align-content:center">
+    <iframe src="@Model.CHITIET" style="min-width:85%;min-height:600px;margin-top:15px"></iframe>
+</div>
+
+

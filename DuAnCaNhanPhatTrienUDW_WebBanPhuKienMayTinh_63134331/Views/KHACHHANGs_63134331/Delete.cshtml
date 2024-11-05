@@ -1,0 +1,57 @@
+﻿@model DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.KHACHHANG
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Bạn có chắc muốn xóa Khách hàng @Model.HOTENKH</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTENKH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTENKH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DIACHIKH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DIACHIKH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EMAILKH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMAILKH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PASSKH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PASSKH)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

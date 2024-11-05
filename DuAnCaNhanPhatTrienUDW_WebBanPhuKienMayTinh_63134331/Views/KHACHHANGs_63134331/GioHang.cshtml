@@ -1,0 +1,274 @@
+﻿
+@{
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(function () {
+        // Lấy các phần tử DOM cần thiết
+        var checkboxes = document.querySelectorAll('[id="sanpham"]');
+        var checkAllCheckbox = document.getElementById('check-all');
+
+        // Thiết lập sự kiện cho checkbox check-all
+        $("#check-all").click(function () {
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = this.checked;
+            }
+            calculateTotalPrice();
+            calculateSelectedCount();
+        });
+
+        // Thiết lập sự kiện cho các checkbox sản phẩm
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                calculateTotalPrice();
+                calculateSelectedCount();
+                // Kiểm tra nếu tất cả các checkbox sản phẩm đều được chọn
+                var allChecked = Array.from(checkboxes).every(function (checkbox) {
+                    return checkbox.checked;
+                });
+                // Cập nhật trạng thái của checkbox "Tất cả"
+                checkAllCheckbox.checked = allChecked;
+            });
+        });
+    });
+
+    function calculateSelectedCount() {
+        var checkboxes = document.querySelectorAll('.sanpham-checkbox');
+        var countElement = document.querySelector('.countslsp');
+        var countElement1 = document.querySelector('.countslsp1');
+        var selectedCount = 0;
+
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                selectedCount++;
+            }
+        });
+
+        countElement.innerText = selectedCount;
+        countElement1.innerText = selectedCount;
+
+        var buyButton = document.querySelector('.buy-button');
+        if (selectedCount > 0) {
+            buyButton.classList.remove('hidden'); // Xóa lớp CSS ẩn
+            buyButton.removeAttribute('disabled'); // Bỏ thuộc tính disabled
+        } else {
+            buyButton.classList.add('hidden'); // Thêm lớp CSS ẩn
+            buyButton.setAttribute('disabled', 'disabled'); // Thêm thuộc tính disabled
+        }
+    }
+
+
+
+    //Cập nhật số lượng vào csdl
+    function updateCart(idsp, soluong) {
+        $.ajax({
+            type: "POST",
+            url: "/CHITIETGIOHANGs_63134331/UpdateCart",
+            data: { sdtkh: '@Session["ID"]', idsp: idsp, soluong: soluong },
+            success: function(result) {
+                // Xử lý kết quả trả về
+                if (result.Success) {
+                } else {
+                    if (result.ErrorMessage) {
+                        alert(result.ErrorMessage);
+                        location.reload(); // Load lại trang
+
+                    } else {
+                        alert("Có lỗi xảy ra khi cập nhật giỏ hàng!");
+                    }
+                }
+            },
+            error: function() {
+                // Hiển thị thông báo lỗi
+                alert("Có lỗi xảy ra khi cập nhật giỏ hàng!");
+            }
+        });
+    }
+    //Nút bấm giảm 1 số lượng
+    function decreaseQuantity(productId) {
+        var inputElement = document.getElementById('soluong_' + productId);
+        var quantity = parseInt(inputElement.value);
+
+        if (quantity > 1) {
+            quantity -= 1;
+            inputElement.value = quantity;
+            updateCart(productId, quantity);
+            calculateSubtotalPrice(productId);
+            calculateTotalPrice();
+        } else if (quantity === 1) {
+            var confirmDelete = confirm('Bạn có chắc chắn muốn xóa?');
+
+            if (confirmDelete) {
+                // Submit form for deletion
+                var formElement = document.getElementById('deleteForm_' + productId);
+                formElement.submit();
+            }
+        }
+    }
+
+    //Nút bấm tăng 1 số lượng
+    function increaseQuantity(productId) {
+        var inputElement = document.getElementById('soluong_' + productId);
+        var quantity = parseInt(inputElement.value) + 1;
+        inputElement.value = quantity;
+        updateCart(productId, quantity);
+        calculateSubtotalPrice(productId);
+        calculateTotalPrice();
+
+    }
+    //Tính thành tiền cho từng sản phẩm
+    function calculateSubtotalPrice(idsp) {
+        var inputElement = document.getElementById("soluong_" + idsp);
+        var quantity = parseInt(inputElement.value);
+        var price = parseInt(document.getElementById("giaSP_" + idsp).innerText.replace(/\D/g, ""));
+        var subtotalPrice = quantity * price;
+        var subtotalElement = document.getElementById("subtotal_" + idsp);
+        subtotalElement.innerText = formatCurrency(subtotalPrice);
+    }
+    //Tính tổng tiền
+    function calculateTotalPrice() {
+        var total = 0;
+        var checkboxes = document.querySelectorAll('.sanpham-checkbox');
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                var idsp = checkbox.getAttribute('data-idsp');
+                var subtotalElement = document.getElementById('subtotal_' + idsp);
+                var subtotalPrice = parseInt(subtotalElement.innerText.replace(/\D/g, ''));
+                total += subtotalPrice;
+            }
+        });
+        var sumElement = document.getElementById('sum');
+        sumElement.innerText = formatCurrency(total);
+    }
+    //Định dạng tiền
+    function formatCurrency(number) {
+        return number.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+    }
+    //Thêm các sản phẩm được chọn vào đơn hàng khi bấm
+    function saveSession() {
+        // Lấy danh sách sản phẩm được chọn
+        var selectedProducts = [];
+        var checkboxes = document.getElementsByClassName('sanpham-checkbox');
+        for (var i = 0; i < checkboxes.length; i++) {
+            var checkbox = checkboxes[i];
+            if (checkbox.checked) {
+                var idsp = checkbox.getAttribute('data-idsp');
+                var soluong = document.getElementById('soluong_' + idsp).value;
+                selectedProducts.push({ IDHD: @Session["newIDHD"], IDSP: idsp, SL: soluong });
+            }
+        }
+
+        // Lưu danh sách sản phẩm vào session
+        $.ajax({
+            url: '/HOADONs_63134331/SaveSelectedProducts', // Thay thế 'Controller' bằng tên Controller của bạn
+            type: 'POST',
+            data: JSON.stringify(selectedProducts),
+            contentType: 'application/json',
+            success: function (response) {
+                // Xử lý kết quả thành công
+                if (response.success) {
+                    // Chuyển trang
+                    window.location.href = '@Url.Action("Create","HOADONs_63134331")';
+                } else {
+                    // Xử lý lỗi (nếu có)
+                }
+            },
+            error: function (xhr, status, error) {
+                // Xử lý lỗi trong quá trình gửi yêu cầu
+            }
+        });
+    }
+</script>
+<div style="min-height:10px"></div>
+
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="bg-body row p2" style="display: flex; justify-content: center; align-items: center; font-size: 25px; border: 2px solid red; border-radius: 5px; padding: 5px;">
+            <div class="col-5 pe-2 row justify-content-between m-0">
+                <input type="checkbox" class="col-1" style="height: 20px" id="check-all" />
+                <p class="col-11 mb-1">Tất cả (<span class="countslsp">0</span> sản phẩm)</p>
+            </div>
+            <div class="col-2">Đơn giá</div>
+            <div class="col-2">Số lượng</div>
+            <div class="col-2">Thành tiền</div>
+            <div class="col-1" style="text-align:right">
+
+            </div>
+        </div>
+        <div class="bg-body row mt-2" style="display: flex; justify-content: center; align-items: center; ">
+            @foreach (var item in Model)
+            {
+                <div class="col-5 pe-2 row justify-content-between mt-2 mb-2">
+                    <input type="checkbox" class="col-1 sanpham-checkbox pt-4" style="height: 20px" id="sanpham" data-idsp="@item.IDSP" onchange="calculateTotalPrice()" />
+
+                    <div class="col-3 anhSP">
+                        <img src="@item.IMGSP" style="width:80px;height:80px; " />
+                    </div>
+                    <p class="col-8 tenSP">@item.TENSP</p>
+                </div>
+                <div class="col-2 ps-4 giaSP" id="giaSP_@item.IDSP">@item.GIASP.ToString("N0") đ</div>
+                <div class="col-2">
+                    <div class="row" style="display: flex; align-items: center;">
+                        <div class="col-3 btn btn-group giamSL"
+                             onclick="decreaseQuantity('@item.IDSP')"
+                             style="border: 1px solid black; display: flex; justify-content: center; align-items: center; ">
+                            <i class="fa fa-minus"></i>
+                        </div>
+                        <input type="number" id="soluong_@item.IDSP" value="@item.SL" readonly style="max-width:60px; text-align:center">
+                        <div class="col-3 btn btn-group tangSL"
+                             onclick="increaseQuantity('@item.IDSP')"
+                             style="border: 1px solid black; display: flex; justify-content: center; align-items: center; ">
+                            <i class="fa fa-add"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2 ps-4 subtotal" id="subtotal_@item.IDSP">
+                    @((item.SL * item.GIASP).ToString("N0")) đ
+                </div>
+
+
+                <div class="col-1">
+                    @using (Html.BeginForm("Delete", "CHITIETGIOHANGs_63134331", new { sdtkh = Session["ID"], idsp = item.IDSP }, FormMethod.Post, new { id = "deleteForm_" + item.IDSP, onsubmit = "return confirm('Bạn có chắc chắn muốn xóa?');" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn"> <i class="fa fa-trash"></i></button>
+                    }
+                </div>
+
+
+            }
+        </div>
+
+    </div>
+    <div class="col-md-3 ms-2 mb-2" style="border: 2px solid red; border-radius: 5px; padding: 5px; ">
+        <div class="d-flex flex-column">
+            <div class="p-2 bg-body">
+                <div style="display: flex; align-items: center;">
+                    <p style="margin-bottom: 0;">Giao tới: <b>@Session["Address"]</b></p>
+                </div>
+                <div>
+                    Người nhận: <b>@Session["Username"]</b>
+                    <br />
+                    Số điện thoại: <b>@Session["ID"]</b>
+                </div>
+                <i>(Có thể thay đổi sau khi bấm Mua hàng)</i>
+
+            </div>
+            <div class="p-1 mt-2 bg-body">
+                <div class="row justify-content-between">
+                    <p class="col-md-5">Tổng tiền</p>
+                    <b style="text-align: right; color: red;" class="col-md-5 pe-4" id="sum">0 ₫</b>
+                </div>
+            </div>
+            <button class="buy-button" disabled onclick="saveSession()" style="margin: auto; width: 40%; background-color: #dc3545; color: white; border-radius: .40rem; ">
+                Mua hàng (<span class="countslsp1">0</span>)
+            </button>
+
+
+        </div>
+    </div>
+</div>

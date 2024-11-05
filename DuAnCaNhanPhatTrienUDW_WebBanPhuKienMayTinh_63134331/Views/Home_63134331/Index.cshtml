@@ -1,0 +1,271 @@
+﻿﻿@model IEnumerable<DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.SANPHAM>
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        .form-container {
+            display: flex;
+            justify-content: center; /* Căn giữa ngang */
+            align-items: center; /* Căn giữa dọc */
+            height: 100%; /* Đảm bảo div cha có chiều cao */
+        }
+
+        .center-button {
+            display: block;
+            margin: 0 auto; /* Căn giữa ngang */
+            width: 100%;
+            height: 100%;
+            background-color: #93f542;
+        }
+
+        .tenSP {
+            height: 200px;
+            display: inline-block;
+            white-space: normal; /* Hiển thị nội dung trên 2 dòng */
+            text-overflow: ellipsis; /* Hiển thị dấu chấm 3 ở cuối khi nội dung quá dài */
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            max-height: 3.6em;
+            line-height: 1.8em;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .giaSP {
+            font-weight: bolder;
+            color: red;
+            margin-top: 5px;
+            text-align: center;
+            font-size: 25px;
+            font-weight: bolder;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding-bottom:10px;padding-right:150px;padding-left:150px">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+                <li data-target="#myCarousel" data-slide-to="3"></li>
+            </ol>
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img src="~/assets/images/Carousel/1.jpg" alt="img1" style="width:100%;">
+                </div>
+                <div class="item">
+                    <img src="~/assets/images/Carousel/2.jpg" alt="img2" style="width:100%;">
+                </div>
+                <div class="item">
+                    <img src="~/assets/images/Carousel/3.jpg" alt="img3" style="width:100%;">
+                </div>
+                <div class="item">
+                    <img src="~/assets/images/Carousel/4.jpg" alt="img4" style="width:100%;">
+                </div>
+            </div>
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+    <div style="background-color: darkred; padding: 5px; border: 2px solid red; border-radius: 12px; padding: 5px; margin: auto; max-width: 95%; text-align: center">
+        <h1 style="padding-left: 60px;color:white ">SẢN PHẨM BÁN CHẠY</h1>
+    </div>
+    <div class="bg-body row" style="display: flex; justify-content: center; align-items: center; padding: 1px; margin: 1px">
+        <div class="row" style="background-color: sandybrown; margin: 5px; padding: 10px; text-align: center; max-width: 92%; border: 2px solid red; border-radius: 12px; padding: 5px;">
+            <h1 class="col-6" style="font-weight:bolder;text-align:left">LAPTOP</h1>
+            <div class="col-6"><a style="color:darkblue;padding-left:2%;font-size:25px;float:right" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP012" })">Xem tất cả</a></div>
+        </div>
+        <div style="height:5px; width:100%"></div>
+        @{
+            int count = 0;
+        }
+        @foreach (var item in Model)
+        {
+            if (item.IDLSP == "LSP012" && count < 4 && item.SOLUONG > 3)
+            {
+                <div class="card col-2" style="margin: 5px; width: 19%; height: 100%; min-height: 430px">
+                    <a href="@Url.Action("Details", "SANPHAMs_63134331", new { id = item.IDSP })">
+
+                        <img src="@item.IMGSP" alt="@item.IMGSP" style="height: 300px; max-width:100%">
+                    </a>
+                    <div class="tenSP" title="@Html.DisplayFor(modelItem => item.TENSP)">
+                        <h4 style="text-align: center; color: darkblue;">@Html.DisplayFor(modelItem => item.TENSP)</h4>
+                    </div>
+                    <div class="giaSP">
+                        Giá: @string.Format("{0:#,##0 đ}", item.GIASP)
+                    </div>
+                </div>
+                count++;
+            }
+        }
+    </div>
+    <div class="bg-body row" style="display: flex; justify-content: center; align-items: center; padding: 1px; margin: 1px">
+        <div class="row" style="background-color: sandybrown; margin: 5px; padding: 10px; text-align: center; max-width: 92%; border: 2px solid red; border-radius: 12px; padding: 5px;">
+            <h1 class="col-6" style="font-weight:bolder;text-align:left">MÀN HÌNH LAPTOP</h1>
+            <div class="col-6"><a style="color:darkblue;padding-left:2%;font-size:25px;float:right" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP009" })">Xem tất cả</a></div>
+        </div>
+        <div style="height:5px; width:100%"></div>
+        @{
+            count = 0;
+        }
+        @foreach (var item in Model)
+        {
+            if (item.IDLSP == "LSP009" && count < 4 && item.SOLUONG > 3)
+            {
+                <div class="card col-2" style="margin: 5px; width: 19%; height: 100%; min-height: 430px">
+                    <a href="@Url.Action("Details", "SANPHAMs_63134331", new { id = item.IDSP })">
+
+                        <img src="@item.IMGSP" alt="@item.IMGSP" style="height: 300px; max-width:100%">
+                    </a>
+                    <div class="tenSP" title="@Html.DisplayFor(modelItem => item.TENSP)">
+                        <h4 style="text-align: center; color: darkblue;">@Html.DisplayFor(modelItem => item.TENSP)</h4>
+                    </div>
+                    <div class="giaSP">
+                        Giá: @string.Format("{0:#,##0 đ}", item.GIASP)
+                    </div>
+
+                </div>
+                count++;
+            }
+        }
+    </div>
+    <div class="bg-body row" style="display: flex; justify-content: center; align-items: center; padding: 1px; margin: 1px">
+        <div class="row" style="background-color: sandybrown; margin: 5px; padding: 10px; text-align: center; max-width: 92%; border: 2px solid red; border-radius: 12px; padding: 5px;">
+            <h1 class="col-6" style="font-weight:bolder;text-align:left">CASE MÁY TÍNH</h1>
+            <div class="col-6"><a style="color:darkblue;padding-left:2%;font-size:25px;float:right" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP006" })">Xem tất cả</a></div>
+        </div>
+        <div style="height:5px; width:100%"></div>
+        @{
+            count = 0;
+        }
+        @foreach (var item in Model)
+        {
+            if (item.IDLSP == "LSP006" && count < 4 && item.SOLUONG > 3)
+            {
+                <div class="card col-2" style="margin: 5px; width: 19%; height: 100%; min-height: 430px">
+                    <a href="@Url.Action("Details", "SANPHAMs_63134331", new { id = item.IDSP })">
+
+                        <img src="@item.IMGSP" alt="@item.IMGSP" style="height: 300px; max-width:100%">
+                    </a>
+                    <div class="tenSP" title="@Html.DisplayFor(modelItem => item.TENSP)">
+                        <h4 style="text-align: center; color: darkblue;">@Html.DisplayFor(modelItem => item.TENSP)</h4>
+                    </div>
+                    <div class="giaSP">
+                        Giá: @string.Format("{0:#,##0 đ}", item.GIASP)
+                    </div>
+
+                </div>
+                count++;
+            }
+        }
+    </div>
+    <div class="bg-body row" style="display: flex; justify-content: center; align-items: center; padding: 1px; margin: 1px">
+        <div class="row" style="background-color: sandybrown; margin: 5px; padding: 10px; text-align: center; max-width: 92%; border: 2px solid red; border-radius: 12px; padding: 5px;">
+            <h1 class="col-6" style="font-weight:bolder;text-align:left">BÀN PHÍM</h1>
+            <div class="col-6"><a style="color:darkblue;padding-left:2%;font-size:25px;float:right" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP010" })">Xem tất cả</a></div>
+        </div>
+        <div style="height:5px; width:100%"></div>
+        @{
+            count = 0;
+        }
+        @foreach (var item in Model)
+        {
+            if (item.IDLSP == "LSP010" && count < 4 && item.SOLUONG > 3)
+            {
+                <div class="card col-2" style="margin: 5px; width: 19%; height: 100%; min-height: 430px">
+                    <a href="@Url.Action("Details", "SANPHAMs_63134331", new { id = item.IDSP })">
+
+                        <img src="@item.IMGSP" alt="@item.IMGSP" style="height: 300px; max-width:100%">
+                    </a>
+                    <div class="tenSP" title="@Html.DisplayFor(modelItem => item.TENSP)">
+                        <h4 style="text-align: center; color: darkblue;">@Html.DisplayFor(modelItem => item.TENSP)</h4>
+                    </div>
+                    <div class="giaSP">
+                        Giá: @string.Format("{0:#,##0 đ}", item.GIASP)
+                    </div>
+                </div>
+                count++;
+            }
+        }
+    </div>
+    <div class="bg-body row" style="display: flex; justify-content: center; align-items: center; padding: 1px; margin: 1px">
+        <div class="row" style="background-color: sandybrown; margin: 5px; padding: 10px; text-align: center; max-width: 92%; border: 2px solid red; border-radius: 12px; padding: 5px;">
+            <h1 class="col-6" style="font-weight:bolder;text-align:left">CHUỘT</h1>
+            <div class="col-6"><a style="color:darkblue;padding-left:2%;font-size:25px;float:right" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP011" })">Xem tất cả</a></div>
+        </div>
+        <div style="height:5px; width:100%"></div>
+        @{
+            count = 0;
+        }
+        @foreach (var item in Model)
+        {
+            if (item.IDLSP == "LSP011" && count < 4 && item.SOLUONG > 3)
+            {
+                <div class="card col-2" style="margin: 5px; width: 19%; height: 100%; min-height: 430px">
+                    <a href="@Url.Action("Details", "SANPHAMs_63134331", new { id = item.IDSP })">
+
+                        <img src="@item.IMGSP" alt="@item.IMGSP" style="height: 300px; max-width:100%">
+                    </a>
+                    <div class="tenSP" title="@Html.DisplayFor(modelItem => item.TENSP)">
+                        <h4 style="text-align: center; color: darkblue;">@Html.DisplayFor(modelItem => item.TENSP)</h4>
+                    </div>
+                    <div class="giaSP">
+                        Giá: @string.Format("{0:#,##0 đ}", item.GIASP)
+                    </div>
+
+                </div>
+                count++;
+            }
+        }
+    </div>
+    <div class="bg-body row" style="display: flex; justify-content: center; align-items: center; padding: 1px; margin: 1px">
+        <div class="row" style="background-color: sandybrown; margin: 5px; padding: 10px; text-align: center; max-width: 92%; border: 2px solid red; border-radius: 12px; padding: 5px;">
+            <h1 class="col-6" style="font-weight:bolder;text-align:left">RAM</h1>
+            <div class="col-6"><a style="color:darkblue;padding-left:2%;font-size:25px;float:right" href="@Url.Action("Index", "SANPHAMs_63134331", new { loaiSanPham = "LSP004" })">Xem tất cả</a></div>
+        </div>
+        <div style="height:5px; width:100%"></div>
+        @{
+            count = 0;
+        }
+        @foreach (var item in Model)
+        {
+            if (item.IDLSP == "LSP004" && count < 4 && item.SOLUONG > 3)
+            {
+                <div class="card col-2" style="margin: 5px; width: 19%; height: 100%; min-height: 430px">
+                    <a href="@Url.Action("Details", "SANPHAMs_63134331", new { id = item.IDSP })">
+
+                        <img src="@item.IMGSP" alt="@item.IMGSP" style="height: 300px; max-width:100%">
+                    </a>
+                    <div class="tenSP" title="@Html.DisplayFor(modelItem => item.TENSP)">
+                        <h4 style="text-align: center; color: darkblue;">@Html.DisplayFor(modelItem => item.TENSP)</h4>
+                    </div>
+                    <div class="giaSP">
+                        Giá: @string.Format("{0:#,##0 đ}", item.GIASP)
+                    </div>
+                </div>
+                count++;
+            }
+        }
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+﻿@model DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.HOADON
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>HOADON</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NDAT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NDAT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NGIAO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NGIAO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TINHTRANG)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TINHTRANG)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTENNN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTENNN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SDTNN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SDTNN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DIACHINN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DIACHINN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KHACHHANG.HOTENKH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KHACHHANG.HOTENKH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NHANVIEN.HOTENNV)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NHANVIEN.HOTENNV)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IDHD }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

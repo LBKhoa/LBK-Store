@@ -1,0 +1,142 @@
+﻿@model DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.NHANVIEN
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    string id = Model.IDNV.ToString();
+    bool quyen = Convert.ToBoolean(Model.QUYEN);
+    Model.PASSNV = "";
+
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+    $(function () {
+        $('form').submit(function (e) {
+            e.preventDefault(); // Ngăn chặn hành động mặc định của form
+
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                success: function (result) {
+                    // Hiển thị cảnh báo thành công
+                    $('#successMessage').text('Lưu thành công.').fadeIn();
+
+                    // Tải lại trang sau 2 giây
+                    setTimeout(function () {
+                        window.location.href = '/NHANVIENs_63134331/Details/'+'@Session["ID"].ToString()';
+                    }, 2000);
+                },
+                error: function (error) {
+                    // Xử lý lỗi
+                }
+            });
+        });
+    });
+</script>
+
+
+
+<h2>Sửa thông tin nhân viên @Model.HOTENNV</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IDNV)
+
+        <div class="form-group">
+            Họ tên        <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTENNV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.HOTENNV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Số điện thoại         <div class="col-md-10">
+                @Html.EditorFor(model => model.SDTNV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SDTNV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Địa chỉ        <div class="col-md-10">
+                @Html.EditorFor(model => model.DIACHINV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DIACHINV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Email        <div class="col-md-10">
+                @Html.EditorFor(model => model.EMAILNV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EMAILNV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @if (id == Session["ID"].ToString())
+        {
+            <div class="form-group">
+                Mật khẩu mới       <div class="col-md-10">
+                    @Html.EditorFor(model => model.PASSNV, new { htmlAttributes = new { @class = "form-control", value = "" } })
+                    @Html.ValidationMessageFor(model => model.PASSNV, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div id="successMessage" class="alert alert-success" style="display: none;"></div>
+
+        }
+        else
+        {
+            @Html.HiddenFor(model => model.PASSNV)
+
+        }
+
+
+        @if (id != Session["ID"].ToString())
+        {
+            <div class="form-group">
+                Quyền
+                <div class="col-md-10">
+                    @if (!quyen)
+                    {
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(model => model.QUYEN, true) Quản trị viên
+                        </label>
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(model => model.QUYEN, false, new { @checked = "checked" }) Nhân viên
+                        </label>
+                    }
+                    else
+                    {
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(model => model.QUYEN, true, new { @checked = "checked" }) Quản trị viên
+                        </label>
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(model => model.QUYEN, false) Nhân viên
+                        </label>
+                    }
+                    @Html.ValidationMessageFor(model => model.QUYEN, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+        else
+        {
+            @Html.HiddenFor(model => model.QUYEN)
+
+        }
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+                | @Html.ActionLink("Trở lại", "Index")
+
+            </div>
+        </div>
+    </div>
+}
+
+

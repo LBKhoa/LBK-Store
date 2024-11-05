@@ -1,0 +1,50 @@
+﻿﻿@model IEnumerable<DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.BAIVIET>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 style="text-align: center">Danh sách bài viết</h2>
+
+<p>
+    @Html.ActionLink("Tạo mới", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th style="max-width:300px">
+            Tên bài viết
+        </th>
+        <th>
+            Hình ảnh
+        </th>
+        <th>
+            Chi tiết
+        </th>
+        <th>Thao tác</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td style="max-width:300px">
+                x`
+                <b>@Html.DisplayFor(modelItem => item.TENBV)</b>
+            </td>
+            <td>
+
+                <img src="@Html.DisplayFor(modelItem => item.IMGBV)" alt="Alternate Text" style="max-width:200px" />
+            </td>
+            <td>
+                @Html.ActionLink("Chi tiết", "Details", new { id = item.IDBV })
+
+            </td>
+            <td>
+                @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.IDBV }) |
+
+                @Html.ActionLink("Xóa bài viết", "Delete", new { id = item.IDBV })
+            </td>
+        </tr>
+    }
+
+</table>

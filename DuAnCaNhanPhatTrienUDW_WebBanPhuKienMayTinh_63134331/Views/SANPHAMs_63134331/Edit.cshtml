@@ -1,0 +1,92 @@
+﻿@model DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.SANPHAM
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 style="text-align: center">Chỉnh sửa sản phẩm</h2>
+
+
+
+@using (Html.BeginForm("Edit", "SANPHAMs_63134331", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IDSP)
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Tên sản phẩm</span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TENSP, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TENSP, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Ảnh sản phẩm</span>
+            <div class="col-md-5">
+                <input type="file" value="Chọn File" id="IMG" name="IMG" class="btn btn-default" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Giá sản phẩm</span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.GIASP, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.GIASP, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">Số lượng hiện có</span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SOLUONG, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SOLUONG, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Thời gian bảo hành</span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BH, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BH, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <span class="control-label col-md-2">File chi tiết về sản phẩm (html)</span>
+
+            <div class="col-md-5">
+                <input type="file" value="Chọn File" id="HTML" name="HTML" class="btn btn-default" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Nhà cung cấp</span>
+            <div class="col-md-10">
+                @Html.DropDownList("IDNCC", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IDNCC, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Loại sản phẩm</span>
+            <div class="col-md-10">
+                @Html.DropDownList("IDLSP", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IDLSP, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 ">
+                <input type="submit" value="Lưu" class="btn btn-primary" /> |
+                @Html.ActionLink("Trở lại", "Index1")
+            </div>
+        </div>
+    </div>
+}
+

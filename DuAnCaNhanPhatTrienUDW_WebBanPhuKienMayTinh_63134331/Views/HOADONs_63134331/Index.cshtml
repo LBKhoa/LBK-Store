@@ -1,0 +1,110 @@
+﻿﻿@model IEnumerable<DuAnCaNhanPhatTrienUDW_WebBanPhuKienMayTinh_63134331.Models.HOADON>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    // Gọi khi nhấn nút cập nhật
+    function updateHoaDon(idhd) {
+    var token = $('input[name="__RequestVerificationToken"]').val();
+
+    // Ẩn nút "Xử lý" và hiển thị hoạt ảnh đang tải
+    $("#btnProcess").hide();
+    $("#loadingImage").show();
+
+    $.ajax({
+        url: '/HOADONs_63134331/UpdateHoaDon',
+        type: 'POST',
+        data: {
+            __RequestVerificationToken: token,
+            idhd: idhd,
+            idnv: '@Session["ID"]',
+            tinhtrang: "Đã xác nhận"
+        },
+        success: function (result) {
+            // Xử lý kết quả
+            location.reload(); // Tải lại trang sau khi thành công
+        },
+        error: function (error) {
+            // Xử lý lỗi
+
+            // Hiển thị lại nút "Xử lý" và ẩn hoạt ảnh đang tải
+            $("#btnProcess").show();
+            $("#loadingImage").hide();
+        }
+    });
+}
+
+
+</script>
+
+<h2>Danh sách đơn hàng</h2>
+<table class="table">
+    <tr>
+        <th>
+            Ngày đặt
+        </th>
+        <th>
+            Tình trạng
+        </th>
+        <th>
+            Người nhận
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th>
+            NV xử lý
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <script>
+                    var dateString = '@item.NDAT.ToString("dd/MM/yyyy")';
+                    var parts = dateString.split(' ');
+                    var formattedDate = parts[0];
+                    document.write(formattedDate);
+                </script>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TINHTRANG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HOTENNN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SDTNN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DIACHINN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NHANVIEN.HOTENNV)
+            </td>
+            @if (item.NHANVIEN.HOTENNV == "Online" && item.NHANVIEN.HOTENNV != Session["UserName"].ToString())
+            {
+                <td>
+                    <button id="btnProcess" type="button" onclick="updateHoaDon('@item.IDHD')" class="processing-btn">Xử lý</button>
+                    <img id="loadingImage" src="~/assets/loading-gif.gif" style="display: none; max-width:55px;max-height:32px" />
+
+                </td>
+
+            }
+            else
+            {
+                <td></td>
+            }
+
+        </tr>
+    }
+</table>
